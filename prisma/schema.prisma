@@ -1,0 +1,33 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"] 
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://postgres:qwe@localhost:5432/mydb"
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  username String @unique
+  email    String @unique
+  password String
+  tasks    Task[]
+  roles    Role[]
+}
+
+model Task {
+  id          Int     @id @default(autoincrement())
+  title       String?
+  description String?
+  completed   Boolean @default(false)
+  userId      Int
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Role {
+  id    Int    @id @default(autoincrement())
+  name  String @unique
+  users User[]
+}

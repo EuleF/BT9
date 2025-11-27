@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  nest-app:
+    container_name: my_nest_app
+    build: .
+    ports:
+      - '3000:3000'
+    environment:
+      - DATABASE_URL=postgresql://postgres:qwe@postgres-db:5432/mydb
+      - JWT_SECRET=SuperSecretKey
+    depends_on:
+      - postgres-db
+    extra_hosts:
+      - "prisma-client-js:host-gateway"
+
+  postgres-db:
+    container_name: postgres18
+    image: postgres:latest
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=qwe
+      - POSTGRES_DB=mydb
+    volumes:
+      - postgres-data:/var/lib/postgresql
+
+volumes:
+  postgres-data:
