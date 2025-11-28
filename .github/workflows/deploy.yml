@@ -41,9 +41,6 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: Run tests
-        run: npm run test
-
       - name: Build Docker image
         run: docker build -t eulef/nest-app:latest .
 
@@ -55,3 +52,6 @@ jobs:
 
       - name: Push Docker image
         run: docker push eulef/nest-app:latest
+
+      - name: Run tests
+        run: npm run test
