@@ -6,9 +6,29 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:latest
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: qwe
+          POSTGRES_DB: mydb
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Wait for PostgreSQL
+        run: |
+            timeout 60s bash -c 'while ! pg_isready -h localhost -p 5432 -U postgres; do sleep 2; done'
+
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
