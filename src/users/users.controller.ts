@@ -8,9 +8,9 @@ import {
   UseGuards,
   Patch,
 } from '@nestjs/common';
-import { Roles } from 'src/auth/roles.decorator';
+import { Roles } from '../auth/roles.decorator';
 import { AuthGuard } from '@nestjs/passport';
-import { RolesGuard } from 'src/auth/roles.guard';
+import { RolesGuard } from '../auth/roles.guard';
 import { UsersService } from './users.service';
 import { AssignRoleDto } from './dto/assign-role.dto';
 
